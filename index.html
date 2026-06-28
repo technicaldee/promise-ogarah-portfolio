@@ -271,20 +271,20 @@
     <p class="hero-bio">I help busy professionals and entrepreneurs reclaim their time by handling the details that slow them down. From calendar management and customer support to workflow automation and CRM optimization, I streamline your operations so you can focus on what matters most — growing your business.</p>
     <div class="stats-row">
       <div class="stat-item">
-        <div class="stat-num" data-target="50">0</div>
+        <div class="stat-num" data-target="4">0</div>
+        <div class="stat-lbl">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="30">0</div>
         <div class="stat-lbl">Projects Completed</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num" data-target="98">0</div>
-        <div class="stat-lbl">Satisfaction Rate %</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" data-target="5">0</div>
-        <div class="stat-lbl">Years Experience</div>
+        <div class="stat-num" data-target="95">0</div>
+        <div class="stat-lbl">Client Satisfaction</div>
       </div>
     </div>
     <div class="hero-btns">
-      <a href="#contact" class="hero-btn"><i class="fa-regular fa-envelope"></i> Get In Touch</a>
+      <a href="mailto:promiseogarah@gmail.com" class="hero-btn"><i class="fa-regular fa-envelope"></i> Get In Touch</a>
       <a href="https://www.linkedin.com/in/promise-ogarah/" target="_blank" class="cv-btn"><i class="fa-brands fa-linkedin-in"></i> Let's Connect</a>
     </div>
   </div>
@@ -295,7 +295,7 @@
     <div class="exp-badge">
       <div class="badge-icon"><i class="fa-solid fa-star"></i></div>
       <div>
-        <div class="badge-num">5+ Years</div>
+        <div class="badge-num">4+ Years</div>
         <div class="badge-lbl">Experience</div>
       </div>
     </div>
@@ -789,7 +789,7 @@
       <p class="label">Get in Touch</p>
       <h2>Let's Work Together</h2>
       <div class="section-line"></div>
-      <p class="sub">Ready to streamline your operations and reclaim your time? I'd love to chat about how I can help your business run more efficiently.</p>
+      <p class="sub">Ready to streamline your operations and reclaim your time? Fill out the form and I'll get back to you within 24 hours.</p>
       <div class="contact-item">
         <div class="ci-icon"><i class="fa-regular fa-envelope"></i></div>
         <div>
@@ -818,16 +818,30 @@
       </div>
     </div>
 
-    <form class="contact-form reveal" action="https://formspree.io/f/your-form-id" method="POST">
+    <form class="contact-form reveal" id="contact-form">
       <div class="form-row">
         <div class="form-group">
-          <label for="name">Your Name</label>
-          <input type="text" id="name" name="name" placeholder="John Doe" required/>
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" name="first-name" placeholder="John" required/>
         </div>
+        <div class="form-group">
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" name="last-name" placeholder="Doe" required/>
+        </div>
+      </div>
+      <div class="form-row">
         <div class="form-group">
           <label for="email">Your Email</label>
           <input type="email" id="email" name="email" placeholder="john@example.com" required/>
         </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" placeholder="City, Country"/>
       </div>
       <div class="form-group">
         <label for="subject">Subject</label>
@@ -838,6 +852,7 @@
         <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
       </div>
       <button type="submit" class="submit-btn"><i class="fa-regular fa-paper-plane"></i> Send Message</button>
+      <div id="form-status" style="display:none;margin-top:.5rem;padding:.8rem;border-radius:8px;font-size:.88rem"></div>
     </form>
   </div>
 </section>
@@ -897,6 +912,46 @@
       document.getElementById('nav-toggle').checked = false;
     });
   });
+
+  // ── Contact Form Submission ──
+  const contactForm = document.getElementById('contact-form');
+  const formStatus = document.getElementById('form-status');
+  
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const firstName = document.getElementById('first-name').value;
+      const lastName = document.getElementById('last-name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const location = document.getElementById('location').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+      
+      const mailtoSubject = encodeURIComponent(subject || 'Portfolio Contact from ' + firstName + ' ' + lastName);
+      const mailtoBody = encodeURIComponent(
+        'Name: ' + firstName + ' ' + lastName + '\n' +
+        'Email: ' + email + '\n' +
+        (phone ? 'Phone: ' + phone + '\n' : '') +
+        (location ? 'Location: ' + location + '\n' : '') +
+        '\nMessage:\n' + message
+      );
+      
+      window.location.href = 'mailto:promiseogarah@gmail.com?subject=' + mailtoSubject + '&body=' + mailtoBody;
+      
+      formStatus.style.display = 'block';
+      formStatus.style.background = 'rgba(37,193,111,.12)';
+      formStatus.style.color = '#25C16F';
+      formStatus.textContent = 'Opening your email client... If it doesn\'t open, email promiseogarah@gmail.com directly.';
+      
+      contactForm.reset();
+      
+      setTimeout(() => {
+        formStatus.style.display = 'none';
+      }, 5000);
+    });
+  }
 </script>
 
 </body>
